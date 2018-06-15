@@ -1,0 +1,39 @@
+{
+  "name": "postcss-standards",
+  "version": "0.0.0",
+  "description": "PostCSS plugin to keep your style in order follow Idiomatic css",
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "solislab",
+    "code-standards"
+  ],
+  "author": "Luke Tran <lucdkny@gmail.com>",
+  "license": "MIT",
+  "repository": "lucdkny/postcss-standards",
+  "bugs": {
+    "url": "https://github.com/lucdkny/postcss-standards/issues"
+  },
+  "homepage": "https://github.com/lucdkny/postcss-standards",
+  "dependencies": {
+    "postcss": "^6.0.16"
+  },
+  "devDependencies": {
+    "eslint": "^4.18.2",
+    "eslint-config-postcss": "^2.0.2",
+    "jest": "^22.4.2"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "eslintConfig": {
+    "extends": "eslint-config-postcss/es5",
+    "env": {
+      "jest": true
+    }
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
