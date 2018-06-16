@@ -219,11 +219,12 @@ module.exports = postcss.plugin('postcss-standards', function(opts) {
         }
       });
       if (compareArray(originProperties, correctedProperties)) {
-        const message = `Properties order should be \n\n${correctedProperties.join('\n')}`;
         if (opts.throwValidateErrors) {
-          throw new Error(message);
+          const errorMessage = `Properties order should be:\n${correctedProperties.join('\n')}\n\n`;
+          throw rule.error(message, { plugin: 'postcss-standards' });
         } else {
-          console.warn(message);
+          const warnMessage = `Line ${rule.source.start.line}, Column ${rule.source.start.column}, Selector ${rule.selector} properties order should be:\n${correctedProperties.join('\n')}\n\n`;
+          console.warn(warnMessage);
         }
       }
     });
