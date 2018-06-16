@@ -12,8 +12,9 @@ $ npm install postcss-standards
 ```
 
 ## Options
-`throwValidateErrors`: boolean. Default to `true`
-`properties`: Properties order. Default to Idiomatic css standards
+- `throwValidateErrors`: boolean. Default to `true`.
+
+- `properties`: Properties order. Default to Idiomatic css standards
 
 ## Usage
 
