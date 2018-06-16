@@ -6,17 +6,14 @@
 [ci-img]:  https://travis-ci.org/lucdkny/postcss-standards.svg
 [ci]:      https://travis-ci.org/lucdkny/postcss-standards
 
-```css
-.foo {
-    /* Input example */
-}
+## Install
+```bash
+$ npm install postcss-standards
 ```
 
-```css
-.foo {
-  /* Output example */
-}
-```
+## Options
+`throwValidateErrors`: boolean. Default to `true`
+`properties`: Properties order. Default to Idiomatic css standards
 
 ## Usage
 
