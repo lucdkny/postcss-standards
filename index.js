@@ -57,7 +57,7 @@ module.exports = postcss.plugin('postcss-standards', function(opts) {
   opts = opts || {throwValidateErrors: true, properties: defaultProperties};
   const propertiesOrder = opts.properties;
   const ordering = indexProperties(propertiesOrder);
-  return function(root) {
+  return function(root, result) {
     root.walkRules(rule => {
       /*
        * Get origin properties
@@ -78,12 +78,11 @@ module.exports = postcss.plugin('postcss-standards', function(opts) {
         }
       });
       if (compareArray(originProperties, correctedProperties)) {
+        const message = `Properties order should be:\n${correctedProperties.join('\n')}\n\n`;
         if (opts.throwValidateErrors) {
-          const errorMessage = `Properties order should be:\n${correctedProperties.join('\n')}\n\n`;
-          throw rule.error(errorMessage, { plugin: 'postcss-standards' });
+          throw rule.error(message, { plugin: 'postcss-standards' });
         } else {
-          const warnMessage = `Line ${rule.source.start.line}, Column ${rule.source.start.column}, Selector ${rule.selector} properties order should be:\n${correctedProperties.join('\n')}\n\n`;
-          console.warn(warnMessage);
+          rule.warn(result, message);
         }
       }
     });
