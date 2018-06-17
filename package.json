@@ -1,6 +1,6 @@
 {
   "name": "postcss-standards",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "PostCSS plugin to keep your style in order follow Idiomatic css",
   "keywords": [
     "postcss",
