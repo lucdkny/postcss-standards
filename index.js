@@ -1,4 +1,5 @@
 const postcss = require('postcss');
+const helper = require('./helper/helper')
 /*
 * Properties orders
 */
@@ -34,53 +35,26 @@ const defaultProperties = [
 ]
 
 /*
- * Convert properties array to an object with order index
- */
-const indexProperties = (properties) => {
-  return properties.reduce(function(result, item, index) {
-    result[item] = index + 1;
-    return result;
-  }, {});
-};
-
-/*
- * Simple compare 2 array
- */
-const compareArray = (array, anotherArray) => {
-  return JSON.stringify(array) !== JSON.stringify(anotherArray);
-};
-
-/*
  * Main module
  */
 module.exports = postcss.plugin('postcss-standards', function(opts) {
-  opts = opts || {throwValidateErrors: true, properties: defaultProperties};
-  const propertiesOrder = opts.properties;
-  const ordering = indexProperties(propertiesOrder);
+  const defaults = {
+    throwValidateErrors: true,
+    properties: defaultProperties
+  }
+  const options = Object.assign({}, defaults, opts);
+  const ordering = helper.indexProperties(options.properties);
   return function(root, result) {
+    result.decl_order = {};
     root.walkRules(rule => {
-      /*
-       * Get origin properties
-       */
-      const originProperties = [];
-      rule.walkDecls((decl) => originProperties.push(decl.prop));
-
-      /*
-       * Get corrected properties
-       */
-      const correctedProperties = [...originProperties].sort(function(a, b) {
-        if (!propertiesOrder.includes(a)) {
-          return 1;
-        } else if (!propertiesOrder.includes(b)) {
-          return -1;
-        } else {
-          return ordering[a] - ordering[b];
-        }
-      });
-      if (compareArray(originProperties, correctedProperties)) {
+      const originProperties = helper.getProps(rule);
+      const correctedProperties = helper.getOrderedProps(originProperties, ordering);
+      if (helper.compareArray(originProperties, correctedProperties)) {
+        result.decl_order[rule.selector] = correctedProperties;
         const message = `Properties order should be:\n${correctedProperties.join('\n')}\n\n`;
-        if (opts.throwValidateErrors) {
+        if (options.throwValidateErrors) {
           throw rule.error(message, { plugin: 'postcss-standards' });
+          return;
         } else {
           rule.warn(result, message);
         }
